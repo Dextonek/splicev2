@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @export var speed: float = 5.0
 @export var follow_mouse: bool = false
+@export var plane_height: float = 0.0  # The Y-coordinate of the imaginary plane
 
 var target_position: Vector3 = Vector3.ZERO
 
@@ -18,18 +19,19 @@ func _process(delta):
 func update_target_position():
 	var camera = get_viewport().get_camera_3d()
 	var mouse_pos = get_viewport().get_mouse_position()
-	var ray_length = 1000
 	var from = camera.project_ray_origin(mouse_pos)
-	var to = from + camera.project_ray_normal(mouse_pos) * ray_length
+	var direction = camera.project_ray_normal(mouse_pos)
 	
-	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(from, to)
-	var result = space_state.intersect_ray(query)
+	# Define an imaginary plane at Y = plane_height
+	var plane = Plane(Vector3.UP, plane_height)
 	
-	if result:
-		target_position = result.position
-		# Keep the Y position the same as the player's current Y
-		target_position.y = global_position.y
+	# Intersect the ray with the plane
+	var intersection = plane.intersects_ray(from, direction)
+	
+	if intersection:
+		target_position = intersection
+		# Optionally, keep the Y position the same as the player's current Y
+		# target_position.y = global_position.y
 
 func _physics_process(delta):
 	if target_position != Vector3.ZERO:
