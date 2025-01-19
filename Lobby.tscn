@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://5b5ethkatly6"]
+[gd_scene load_steps=7 format=3 uid="uid://c2m1keaed8drq"]
 
 [ext_resource type="PackedScene" uid="uid://4ljx3k4gpben" path="res://spacepilot.glb" id="1_bufwf"]
 [ext_resource type="Script" path="res://character_body_lobby_3d.gd" id="1_hprtq"]

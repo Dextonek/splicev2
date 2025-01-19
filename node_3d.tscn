@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://camera.gd" id="1_ri8ox"]
 [ext_resource type="PackedScene" uid="uid://cgi2mepspl5aj" path="res://omega.glb" id="3_sb0pl"]
 [ext_resource type="Script" path="res://network_manager.gd" id="4_tbfci"]
-[ext_resource type="Script" path="res://demo/FPSCounter.gd" id="5_w3sw0"]
 [ext_resource type="PackedScene" uid="uid://b0nt4n13a6448" path="res://addons/starlight/Stars.tscn" id="6_aeugy"]
 [ext_resource type="Script" path="res://addons/starlight/StarGenerator.gd" id="7_f57q6"]
 
@@ -20,7 +19,28 @@
 
 [sub_resource type="Environment" id="Environment_0icpk"]
 background_energy_multiplier = 0.0
-ambient_light_energy = 0.0
+ambient_light_source = 1
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 11.4
+
+[sub_resource type="GDScript" id="GDScript_0x6co"]
+script/source = "extends Label
+
+
+func _ready():
+	RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
+
+
+func _process(_delta):
+	var rid = get_viewport().get_viewport_rid()
+	var fps = Engine.get_frames_per_second()
+	var cpu = RenderingServer.viewport_get_measured_render_time_cpu(rid)
+	var gpu = RenderingServer.viewport_get_measured_render_time_gpu(rid)
+	if gpu != 0.0:
+		text = \"%d\\ncpu: %.2fms\\ngpu: %.2fms\" % [fps, cpu, gpu]
+	else:
+		text = \"%d\\ncpu: %.2fms\" % [fps, cpu]
+"
 
 [node name="Node3D" type="Node3D"]
 
@@ -71,7 +91,7 @@ offset_top = 5.0
 offset_right = 56.0
 offset_bottom = 31.0
 text = "fps: 60"
-script = ExtResource("5_w3sw0")
+script = SubResource("GDScript_0x6co")
 
 [node name="Stars" parent="." instance=ExtResource("6_aeugy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18, 0)
