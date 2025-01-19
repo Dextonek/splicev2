@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://5b5ethkatly6"]
+
+[ext_resource type="PackedScene" uid="uid://4ljx3k4gpben" path="res://spacepilot.glb" id="1_bufwf"]
+[ext_resource type="Script" path="res://character_body_lobby_3d.gd" id="1_hprtq"]
+[ext_resource type="Script" path="res://camera_lobby_3d.gd" id="3_io07v"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3itma"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ua5oc"]
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_46454"]
+height = 2.38
+
+[node name="Node3D" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_3itma")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_ua5oc")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_hprtq")
+
+[node name="spacepilot" parent="CharacterBody3D" instance=ExtResource("1_bufwf")]
+transform = Transform3D(-0.999905, -0.000976247, 0.0137726, -0.000976934, 1, -4.31608e-05, -0.0137726, -5.65993e-05, -0.999905, 0, 1.03133, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14325, 0)
+shape = SubResource("CapsuleShape3D_46454")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.999847, 0, 0.0174699, 0.00942304, 0.842057, 0.539306, -0.0147106, 0.539388, -0.841929, -0.239057, 3.80302, -2.85047)
+script = ExtResource("3_io07v")
+target_path = NodePath("../CharacterBody3D")
+offset = Vector3(0, 10, 10)
