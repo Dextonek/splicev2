@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @export var speed: float = 5.0
+@export var rotation_speed: float = 10.0  # New variable for rotation speed
 @export var follow_mouse: bool = false
 @export var plane_height: float = 0.0  # The Y-coordinate of the imaginary plane
 
@@ -40,6 +41,11 @@ func _physics_process(delta):
 		
 		if global_position.distance_to(target_position) > 0.1:
 			velocity = direction * speed
+			
+			# Rotate the player to face the movement direction
+			if direction != Vector3.ZERO:
+				var target_rotation = Quaternion.from_euler(Vector3(0, atan2(-direction.x, -direction.z), 0))
+				global_transform.basis = Basis(global_transform.basis.get_rotation_quaternion().slerp(target_rotation, rotation_speed * delta))
 		else:
 			velocity = Vector3.ZERO
 			if not follow_mouse:

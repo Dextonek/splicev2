@@ -1,17 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://c015ldiihu1uv"]
+[gd_scene load_steps=9 format=3 uid="uid://c015ldiihu1uv"]
 
 [ext_resource type="Script" path="res://character_body_3d.gd" id="1_gchnf"]
 [ext_resource type="Script" path="res://camera.gd" id="1_ri8ox"]
+[ext_resource type="PackedScene" uid="uid://cgi2mepspl5aj" path="res://omega.glb" id="3_sb0pl"]
 
 [sub_resource type="MeshLibrary" id="MeshLibrary_64ve0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ompr7"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ihc0b"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wcfre"]
-material = SubResource("StandardMaterial3D_ihc0b")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1h352"]
 
@@ -25,13 +20,15 @@ material = SubResource("StandardMaterial3D_ihc0b")
 transform = Transform3D(-0.999995, 0.000175815, -0.00303179, -0.00138297, 0.862434, 0.506167, 0.00270371, 0.506169, -0.86243, 0, 8.01868, -8.27585)
 fov = 54.7527
 script = ExtResource("1_ri8ox")
-target_path = NodePath("../CharacterBody3D")
-offset = Vector3(0, 10, 10)
+target_path = NodePath("../Player")
+smoothing = 10.0
+offset = Vector3(0, 30, 30)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.368271, -0.282874, 0.885641, -0.00499094, 0.953178, 0.30237, -0.929705, 0.106934, -0.352439, -5.393, 6.345, 4.878)
-light_energy = 3.455
+light_energy = 5.071
 light_indirect_energy = 1.01
+light_volumetric_fog_energy = 0.838
 shadow_enabled = true
 shadow_opacity = 0.31
 shadow_blur = 0.0
@@ -41,16 +38,18 @@ directional_shadow_mode = 0
 mesh_library = SubResource("MeshLibrary_64ve0")
 physics_material = SubResource("PhysicsMaterial_ompr7")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.56239)
 script = ExtResource("1_gchnf")
+speed = 30.0
+rotation_speed = 30.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10574, 0)
-mesh = SubResource("CapsuleMesh_wcfre")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10129, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10129, -0.0482759)
 shape = SubResource("CapsuleShape3D_1h352")
+
+[node name="omega" parent="Player" instance=ExtResource("3_sb0pl")]
+transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -2.99163, 1.69415, -9.32986)
