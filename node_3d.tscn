@@ -30,7 +30,6 @@ light_energy = 5.071
 light_indirect_energy = 1.01
 light_volumetric_fog_energy = 0.838
 shadow_enabled = true
-shadow_opacity = 0.31
 shadow_blur = 0.0
 directional_shadow_mode = 0
 
