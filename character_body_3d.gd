@@ -39,7 +39,7 @@ func _physics_process(delta):
 		var direction = (target_position - global_position).normalized()
 		direction.y = 0  # Ensure movement only on X and Z axes
 		
-		if global_position.distance_to(target_position) > 0.1:
+		if global_position.distance_to(target_position) > 0.5:
 			velocity = direction * speed
 			
 			# Rotate the player to face the movement direction
