@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://character_body_3d.gd" id="1_gchnf"]
 [ext_resource type="Script" path="res://camera.gd" id="1_ri8ox"]
 [ext_resource type="PackedScene" uid="uid://cgi2mepspl5aj" path="res://omega.glb" id="3_sb0pl"]
-[ext_resource type="Script" path="res://NetworkManager.cs" id="4_7dhsm"]
+[ext_resource type="Script" path="res://network/NetworkManager.cs" id="4_q5g2k"]
 [ext_resource type="PackedScene" uid="uid://b0nt4n13a6448" path="res://addons/starlight/Stars.tscn" id="6_aeugy"]
 [ext_resource type="Script" path="res://addons/starlight/StarGenerator.gd" id="7_f57q6"]
 
@@ -80,7 +80,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.96046e-08, 0)
 shape = SubResource("BoxShape3D_tmap3")
 
 [node name="NetworkManager" type="Node" parent="."]
-script = ExtResource("4_7dhsm")
+script = ExtResource("4_q5g2k")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0icpk")

@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using spicle;
+using Google.FlatBuffers;
 
 public partial class NetworkManager : Node
 {
@@ -61,13 +63,15 @@ public partial class NetworkManager : Node
 
 	private void SendMessageToServer(string message)
 	{
-		if (Multiplayer.MultiplayerPeer.GetConnectionStatus() ==
-			MultiplayerPeer.ConnectionStatus.Connected)
-		{
-			byte[] packet = System.Text.Encoding.UTF8.GetBytes(message);
-			Multiplayer.MultiplayerPeer.PutPacket(packet);
-			GD.Print($"Sent message to server: {message}");
-		}
+		var builder = new FlatBufferBuilder(1024);
+		var messageOffset = builder.CreateString(message);
+		Message.StartMessage(builder);
+		Message.AddTimestamp(builder, 123);
+		Message.AddData(builder, messageOffset);
+		Message.FinishMessageBuffer(builder, Message.EndMessage(builder));
+
+		byte[] data = builder.SizedByteArray();
+		Multiplayer.MultiplayerPeer.PutPacket(data);
 	}
 
 	private void OnPeerPacket()
